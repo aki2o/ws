@@ -1,0 +1,7 @@
+/.*
+/*
+!/.gitignore
+!/Makefile
+!/Vagrantfile
+!/.files
+!/.docker

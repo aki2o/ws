@@ -1,0 +1,23 @@
+---
+sync:
+  defaults:
+    mode: two-way-resolved
+    ignore:
+      vcs: true
+      paths:
+      - /tmp/cache/
+      - /log/
+      - vendor/bundle/
+      - vendor/bundle_bin/
+      - node_modules/
+      - .next/
+      - .DS_Store
+      - *~
+    permissions:
+      defaultFileMode: '0644'
+      defaultDirectoryMode: '0755'
+    symlink:
+      mode: ignore
+  docker:
+    alpha: ./.docker
+    beta: aki2o-dev:/usr/src/docker

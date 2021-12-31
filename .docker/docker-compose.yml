@@ -1,0 +1,44 @@
+---
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - "./files/db/conf.d:/etc/mysql/conf.d"
+      - "./files/db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+    environment:
+      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - 3306:3306
+    depends_on:
+      - backup
+  backup:
+    build:
+      context: buildcontext
+      dockerfile: Dockerfiles/backup
+      args:
+        db_schedule: "0 0-23/3 * * *"
+    privileged: true
+    cap_add:
+      - SYS_TIME
+    volumes:
+      - ./.backup:/backup
+      - ./files/backup/scripts:/root/scripts
+  smtp:
+    image: schickling/mailcatcher
+    ports:
+      - 1025:1025
+      - 1080:1080
+  redis:
+    image: redis
+    volumes:
+      - redis-data:/data
+  app:
+    image: centos:7
+volumes:
+  mysql-data:
+    driver: local
+  redis-data:
+    driver: local

@@ -1,0 +1,26 @@
+FROM debian:jessie
+
+RUN apt-get update \
+    && buildDeps='cron mysql-client' \
+    && apt-get install  -y --no-install-recommends $buildDeps checkinstall \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/*
+
+ENV TZ Asia/Tokyo
+RUN echo $TZ > /etc/timezone
+RUN dpkg-reconfigure --frontend noninteractive tzdata
+
+WORKDIR /backup
+
+ARG db_schedule="0 0-23/3 * * *"
+
+RUN echo "$db_schedule root /root/scripts/backup_mysql.sh" >> /etc/crontab
+
+# [NOTE]
+#   スリープすると、コンテナの時間がズレてしまうっぽいので、時刻同期処理を登録する。
+#
+#   ref: http://qiita.com/mittun/items/09f2d61dda9181bac65e
+#        https://ja.stackoverflow.com/questions/33317/docker%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A%E3%81%AE%E6%99%82%E9%96%93%E3%82%92host%E3%81%AE%E6%99%82%E9%96%93%E3%81%A8%E5%90%88%E3%82%8F%E3%81%9B%E3%82%8B
+#
+RUN echo "*/10 * * * * root hwclock -s"                    >> /etc/crontab
+
+CMD ["cron", "-f"]
