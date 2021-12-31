@@ -15,6 +15,7 @@ nim:
 	curl https://nim-lang.org/choosenim/init.sh -sSf | sh
 
 rust:
+	apt-install pkg-config
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
 
 rbenv:
