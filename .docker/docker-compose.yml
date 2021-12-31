@@ -11,7 +11,7 @@ services:
       MYSQL_ROOT_PASSWORD: ''
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     ports:
-      - 3306:3306
+      - "${AKI2O_WS_DB_PORT:-3306}:3306"
     depends_on:
       - backup
   backup:
@@ -30,7 +30,7 @@ services:
     image: schickling/mailcatcher
     ports:
       - 1025:1025
-      - 1080:1080
+      - "${AKI2O_WS_MAILCATCHER_PORT:-1080}:1080"
   redis:
     image: redis
     volumes:

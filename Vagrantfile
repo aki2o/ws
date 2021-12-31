@@ -7,8 +7,12 @@ user_config = {
     './.files/.bash_aliases:/root/.bash_aliases',
     './.files/.bundle/config:/root/.bundle/config'
   ],
-  'fowarding_ports' => %w[3306 1080],
+  'fowarding_ports' => [
+    ENV.fetch('AKI2O_WS_DB_PORT', '3306'),
+    ENV.fetch('AKI2O_WS_MAILCATCHER_PORT', '1080'),
+  ],
   'environment' => {
+    'AKI2O_WS_DB_PORT' => nil,
     'BUNDLE_RUBYGEMS__PKG__GITHUB__COM' => nil
   }
 }
