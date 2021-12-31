@@ -50,8 +50,7 @@ up:
 	vagrant ssh -c "cd /usr/src/docker; bash -l"
 
 down:
-	mutagen project terminate -f mutagen.yml 2>/dev/null
-	vagrant halt
+	mutagen project terminate -f mutagen.yml 2>/dev/null; vagrant halt
 	$(MAKE) ssh_config remove=true
 
 clean:
