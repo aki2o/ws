@@ -1,8 +1,8 @@
 MAKEFLAGS = $(shell [ "$(debug)" == "true" ] || echo "s" )
 
 db:
-	# [ -f /etc/apt/sources.list.d/xenial-security.list ] || echo 'deb http://security.ubuntu.com/ubuntu xenial-security main' > /etc/apt/sources.list.d/xenial-security.list
-	# apt-install build-essential mysql-client libmysqlclient20
+	[ -f /etc/apt/sources.list.d/xenial-security.list ] || echo 'deb http://security.ubuntu.com/ubuntu xenial-security main' > /etc/apt/sources.list.d/xenial-security.list
+	apt-install build-essential libmysqlclient-dev
 	docker-compose up -d db
 
 smtp:
